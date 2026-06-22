@@ -1,0 +1,115 @@
+Vercel CLI 54.11.1 (Node.js 20.20.2)
+> [debug] [2026-06-22T21:19:30.667Z] Agent/TTY/nonInteractive: isAgent=true agentName=cursor-cli stdin.isTTY=undefined --non-interactive=false explicitFalse=false => nonInteractive=true
+> [debug] [2026-06-22T21:19:30.669Z] user supplied known subcommand: "deploy"
+> [debug] [2026-06-22T21:19:30.748Z] Setting target to production
+> [debug] [2026-06-22T21:19:30.791Z] Spinner invoked (Retrieving project…) with a 1000ms delay
+> [debug] [2026-06-22T21:19:30.794Z] Valid access token, skipping token refresh.
+> [debug] [2026-06-22T21:19:30.875Z] #1 → GET https://api.vercel.com/teams/team_v8rL8eHwPho30qJvEyGdqH7Y?teamId=team_v8rL8eHwPho30qJvEyGdqH7Y
+> [debug] [2026-06-22T21:19:30.878Z] #2 → GET https://api.vercel.com/v9/projects/prj_Rp6RLmWjzdTrSPenIAXyn3VuJPcH?teamId=team_v8rL8eHwPho30qJvEyGdqH7Y
+> [debug] [2026-06-22T21:19:30.887Z] Retrying: FetchError: request to https://api.vercel.com/teams/team_v8rL8eHwPho30qJvEyGdqH7Y?teamId=team_v8rL8eHwPho30qJvEyGdqH7Y failed, reason: getaddrinfo ENOTFOUND api.vercel.com
+FetchError: request to https://api.vercel.com/teams/team_v8rL8eHwPho30qJvEyGdqH7Y?teamId=team_v8rL8eHwPho30qJvEyGdqH7Y failed, reason: getaddrinfo ENOTFOUND api.vercel.com
+    at ClientRequest.<anonymous> (file:///home/jason/.npm-global/lib/node_modules/vercel/dist/chunks/chunk-N2T234LO.js:2833:18)
+    at ClientRequest.emit (node:events:524:28)
+    at emitErrorEvent (node:_http_client:101:11)
+    at TLSSocket.socketErrorListener (node:_http_client:504:5)
+    at TLSSocket.emit (node:events:524:28)
+    at emitErrorNT (node:internal/streams/destroy:169:8)
+    at emitErrorCloseNT (node:internal/streams/destroy:128:3)
+    at process.processTicksAndRejections (node:internal/process/task_queues:82:21)
+> [debug] [2026-06-22T21:19:30.888Z] Retrying: FetchError: request to https://api.vercel.com/v9/projects/prj_Rp6RLmWjzdTrSPenIAXyn3VuJPcH?teamId=team_v8rL8eHwPho30qJvEyGdqH7Y failed, reason: getaddrinfo ENOTFOUND api.vercel.com
+FetchError: request to https://api.vercel.com/v9/projects/prj_Rp6RLmWjzdTrSPenIAXyn3VuJPcH?teamId=team_v8rL8eHwPho30qJvEyGdqH7Y failed, reason: getaddrinfo ENOTFOUND api.vercel.com
+    at ClientRequest.<anonymous> (file:///home/jason/.npm-global/lib/node_modules/vercel/dist/chunks/chunk-N2T234LO.js:2833:18)
+    at ClientRequest.emit (node:events:524:28)
+    at emitErrorEvent (node:_http_client:101:11)
+    at TLSSocket.socketErrorListener (node:_http_client:504:5)
+    at TLSSocket.emit (node:events:524:28)
+    at emitErrorNT (node:internal/streams/destroy:169:8)
+    at emitErrorCloseNT (node:internal/streams/destroy:128:3)
+    at process.processTicksAndRejections (node:internal/process/task_queues:82:21)
+> [debug] [2026-06-22T21:19:31.888Z] #3 → GET https://api.vercel.com/teams/team_v8rL8eHwPho30qJvEyGdqH7Y?teamId=team_v8rL8eHwPho30qJvEyGdqH7Y
+> [debug] [2026-06-22T21:19:31.889Z] Retrying: FetchError: request to https://api.vercel.com/teams/team_v8rL8eHwPho30qJvEyGdqH7Y?teamId=team_v8rL8eHwPho30qJvEyGdqH7Y failed, reason: getaddrinfo ENOTFOUND api.vercel.com
+FetchError: request to https://api.vercel.com/teams/team_v8rL8eHwPho30qJvEyGdqH7Y?teamId=team_v8rL8eHwPho30qJvEyGdqH7Y failed, reason: getaddrinfo ENOTFOUND api.vercel.com
+    at ClientRequest.<anonymous> (file:///home/jason/.npm-global/lib/node_modules/vercel/dist/chunks/chunk-N2T234LO.js:2833:18)
+    at ClientRequest.emit (node:events:524:28)
+    at emitErrorEvent (node:_http_client:101:11)
+    at TLSSocket.socketErrorListener (node:_http_client:504:5)
+    at TLSSocket.emit (node:events:524:28)
+    at emitErrorNT (node:internal/streams/destroy:169:8)
+    at emitErrorCloseNT (node:internal/streams/destroy:128:3)
+    at process.processTicksAndRejections (node:internal/process/task_queues:82:21)
+> [debug] [2026-06-22T21:19:31.892Z] #4 → GET https://api.vercel.com/v9/projects/prj_Rp6RLmWjzdTrSPenIAXyn3VuJPcH?teamId=team_v8rL8eHwPho30qJvEyGdqH7Y
+> [debug] [2026-06-22T21:19:31.895Z] Retrying: FetchError: request to https://api.vercel.com/v9/projects/prj_Rp6RLmWjzdTrSPenIAXyn3VuJPcH?teamId=team_v8rL8eHwPho30qJvEyGdqH7Y failed, reason: getaddrinfo ENOTFOUND api.vercel.com
+FetchError: request to https://api.vercel.com/v9/projects/prj_Rp6RLmWjzdTrSPenIAXyn3VuJPcH?teamId=team_v8rL8eHwPho30qJvEyGdqH7Y failed, reason: getaddrinfo ENOTFOUND api.vercel.com
+    at ClientRequest.<anonymous> (file:///home/jason/.npm-global/lib/node_modules/vercel/dist/chunks/chunk-N2T234LO.js:2833:18)
+    at ClientRequest.emit (node:events:524:28)
+    at emitErrorEvent (node:_http_client:101:11)
+    at TLSSocket.socketErrorListener (node:_http_client:504:5)
+    at TLSSocket.emit (node:events:524:28)
+    at emitErrorNT (node:internal/streams/destroy:169:8)
+    at emitErrorCloseNT (node:internal/streams/destroy:128:3)
+    at process.processTicksAndRejections (node:internal/process/task_queues:82:21)
+> [debug] [2026-06-22T21:19:33.893Z] #5 → GET https://api.vercel.com/teams/team_v8rL8eHwPho30qJvEyGdqH7Y?teamId=team_v8rL8eHwPho30qJvEyGdqH7Y
+> [debug] [2026-06-22T21:19:33.895Z] Retrying: FetchError: request to https://api.vercel.com/teams/team_v8rL8eHwPho30qJvEyGdqH7Y?teamId=team_v8rL8eHwPho30qJvEyGdqH7Y failed, reason: getaddrinfo ENOTFOUND api.vercel.com
+FetchError: request to https://api.vercel.com/teams/team_v8rL8eHwPho30qJvEyGdqH7Y?teamId=team_v8rL8eHwPho30qJvEyGdqH7Y failed, reason: getaddrinfo ENOTFOUND api.vercel.com
+    at ClientRequest.<anonymous> (file:///home/jason/.npm-global/lib/node_modules/vercel/dist/chunks/chunk-N2T234LO.js:2833:18)
+    at ClientRequest.emit (node:events:524:28)
+    at emitErrorEvent (node:_http_client:101:11)
+    at TLSSocket.socketErrorListener (node:_http_client:504:5)
+    at TLSSocket.emit (node:events:524:28)
+    at emitErrorNT (node:internal/streams/destroy:169:8)
+    at emitErrorCloseNT (node:internal/streams/destroy:128:3)
+    at process.processTicksAndRejections (node:internal/process/task_queues:82:21)
+> [debug] [2026-06-22T21:19:33.898Z] #6 → GET https://api.vercel.com/v9/projects/prj_Rp6RLmWjzdTrSPenIAXyn3VuJPcH?teamId=team_v8rL8eHwPho30qJvEyGdqH7Y
+> [debug] [2026-06-22T21:19:33.899Z] Retrying: FetchError: request to https://api.vercel.com/v9/projects/prj_Rp6RLmWjzdTrSPenIAXyn3VuJPcH?teamId=team_v8rL8eHwPho30qJvEyGdqH7Y failed, reason: getaddrinfo ENOTFOUND api.vercel.com
+FetchError: request to https://api.vercel.com/v9/projects/prj_Rp6RLmWjzdTrSPenIAXyn3VuJPcH?teamId=team_v8rL8eHwPho30qJvEyGdqH7Y failed, reason: getaddrinfo ENOTFOUND api.vercel.com
+    at ClientRequest.<anonymous> (file:///home/jason/.npm-global/lib/node_modules/vercel/dist/chunks/chunk-N2T234LO.js:2833:18)
+    at ClientRequest.emit (node:events:524:28)
+    at emitErrorEvent (node:_http_client:101:11)
+    at TLSSocket.socketErrorListener (node:_http_client:504:5)
+    at TLSSocket.emit (node:events:524:28)
+    at emitErrorNT (node:internal/streams/destroy:169:8)
+    at emitErrorCloseNT (node:internal/streams/destroy:128:3)
+    at process.processTicksAndRejections (node:internal/process/task_queues:82:21)
+> [debug] [2026-06-22T21:19:37.900Z] #7 → GET https://api.vercel.com/teams/team_v8rL8eHwPho30qJvEyGdqH7Y?teamId=team_v8rL8eHwPho30qJvEyGdqH7Y
+> [debug] [2026-06-22T21:19:37.904Z] #8 → GET https://api.vercel.com/v9/projects/prj_Rp6RLmWjzdTrSPenIAXyn3VuJPcH?teamId=team_v8rL8eHwPho30qJvEyGdqH7Y
+> [debug] [2026-06-22T21:19:37.993Z] #9 → GET https://api.vercel.com/v2/user
+> [debug] [2026-06-22T21:19:37.996Z] Retrying: FetchError: request to https://api.vercel.com/v2/user failed, reason: getaddrinfo ENOTFOUND api.vercel.com
+FetchError: request to https://api.vercel.com/v2/user failed, reason: getaddrinfo ENOTFOUND api.vercel.com
+    at ClientRequest.<anonymous> (file:///home/jason/.npm-global/lib/node_modules/vercel/dist/chunks/chunk-N2T234LO.js:2833:18)
+    at ClientRequest.emit (node:events:536:35)
+    at ClientRequest.emit (node:domain:489:12)
+    at emitErrorEvent (node:_http_client:101:11)
+    at TLSSocket.socketErrorListener (node:_http_client:504:5)
+    at TLSSocket.emit (node:events:524:28)
+    at TLSSocket.emit (node:domain:489:12)
+    at emitErrorNT (node:internal/streams/destroy:169:8)
+    at emitErrorCloseNT (node:internal/streams/destroy:128:3)
+    at process.processTicksAndRejections (node:internal/process/task_queues:82:21)
+> [debug] [2026-06-22T21:19:39.000Z] #10 → GET https://api.vercel.com/v2/user
+> [debug] [2026-06-22T21:19:39.002Z] Retrying: FetchError: request to https://api.vercel.com/v2/user failed, reason: getaddrinfo ENOTFOUND api.vercel.com
+FetchError: request to https://api.vercel.com/v2/user failed, reason: getaddrinfo ENOTFOUND api.vercel.com
+    at ClientRequest.<anonymous> (file:///home/jason/.npm-global/lib/node_modules/vercel/dist/chunks/chunk-N2T234LO.js:2833:18)
+    at ClientRequest.emit (node:events:536:35)
+    at ClientRequest.emit (node:domain:489:12)
+    at emitErrorEvent (node:_http_client:101:11)
+    at TLSSocket.socketErrorListener (node:_http_client:504:5)
+    at TLSSocket.emit (node:events:524:28)
+    at TLSSocket.emit (node:domain:489:12)
+    at emitErrorNT (node:internal/streams/destroy:169:8)
+    at emitErrorCloseNT (node:internal/streams/destroy:128:3)
+    at process.processTicksAndRejections (node:internal/process/task_queues:82:21)
+> [debug] [2026-06-22T21:19:41.006Z] #11 → GET https://api.vercel.com/v2/user
+> [debug] [2026-06-22T21:19:41.008Z] Retrying: FetchError: request to https://api.vercel.com/v2/user failed, reason: getaddrinfo ENOTFOUND api.vercel.com
+FetchError: request to https://api.vercel.com/v2/user failed, reason: getaddrinfo ENOTFOUND api.vercel.com
+    at ClientRequest.<anonymous> (file:///home/jason/.npm-global/lib/node_modules/vercel/dist/chunks/chunk-N2T234LO.js:2833:18)
+    at ClientRequest.emit (node:events:536:35)
+    at ClientRequest.emit (node:domain:489:12)
+    at emitErrorEvent (node:_http_client:101:11)
+    at TLSSocket.socketErrorListener (node:_http_client:504:5)
+    at TLSSocket.emit (node:events:524:28)
+    at TLSSocket.emit (node:domain:489:12)
+    at emitErrorNT (node:internal/streams/destroy:169:8)
+    at emitErrorCloseNT (node:internal/streams/destroy:128:3)
+    at process.processTicksAndRejections (node:internal/process/task_queues:82:21)
+> [debug] [2026-06-22T21:19:45.041Z] #12 → GET https://api.vercel.com/v2/user
+> [debug] [2026-06-22T21:19:45.166Z] Sentry is not reachable: Error: getaddrinfo ENOTFOUND sentry.io
