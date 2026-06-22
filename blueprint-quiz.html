@@ -1,0 +1,1398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Blueprint — Psychological Profile</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap');
+
+  :root {
+    --ink: #0f0f0f;
+    --paper: #f7f5f0;
+    --muted: #888;
+    --line: #e0ddd6;
+    --accent: #1a1a2e;
+    --glow: #c8b8ff;
+    --paid: #6c47ff;
+    --danger: #ff4757;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .screen {
+    display: none;
+    width: 100%;
+    max-width: 520px;
+    padding: 24px;
+    animation: fadeIn 0.35s ease;
+  }
+  .screen.active { display: flex; flex-direction: column; }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── LANDING ── */
+  #screen-landing {
+    min-height: 100vh;
+    justify-content: center;
+    text-align: center;
+    gap: 0;
+  }
+  .eyebrow {
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 20px;
+  }
+  h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(36px, 8vw, 56px);
+    line-height: 1.08;
+    margin-bottom: 22px;
+    color: var(--ink);
+  }
+  h1 em { font-style: italic; color: #444; }
+  .sub {
+    font-size: 15px;
+    color: #555;
+    line-height: 1.65;
+    max-width: 380px;
+    margin: 0 auto 36px;
+  }
+  .btn-primary {
+    display: inline-block;
+    background: var(--ink);
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    padding: 16px 36px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    letter-spacing: 0.02em;
+    transition: background 0.15s;
+    width: 100%;
+    max-width: 320px;
+  }
+  .btn-primary:hover { background: #2a2a2a; }
+  .trust {
+    margin-top: 16px;
+    font-size: 12px;
+    color: var(--muted);
+    letter-spacing: 0.04em;
+  }
+
+  /* ── QUIZ ── */
+  #screen-quiz { gap: 0; min-height: 100vh; justify-content: center; }
+
+  .progress-wrap {
+    margin-bottom: 40px;
+  }
+  .progress-meta {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    color: var(--muted);
+    margin-bottom: 8px;
+    letter-spacing: 0.06em;
+  }
+  .progress-bar {
+    height: 2px;
+    background: var(--line);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: var(--ink);
+    border-radius: 2px;
+    transition: width 0.4s ease;
+  }
+
+  .question-text {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(22px, 5vw, 30px);
+    line-height: 1.3;
+    margin-bottom: 36px;
+    color: var(--ink);
+  }
+
+  .options { display: flex; flex-direction: column; gap: 10px; }
+
+  .option-btn {
+    background: #fff;
+    border: 1.5px solid var(--line);
+    border-radius: 6px;
+    padding: 16px 18px;
+    text-align: left;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    color: var(--ink);
+    cursor: pointer;
+    transition: border-color 0.15s, background 0.15s;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    line-height: 1.45;
+  }
+  .option-btn:hover { border-color: var(--ink); }
+  .option-btn.selected { border-color: var(--ink); background: var(--ink); color: #fff; }
+
+  .opt-letter {
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    font-weight: 500;
+    min-width: 16px;
+    opacity: 0.5;
+  }
+  .option-btn.selected .opt-letter { opacity: 0.7; color: #fff; }
+
+  /* ── LOADING ── */
+  #screen-loading {
+    min-height: 100vh;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    gap: 28px;
+  }
+  .loading-label {
+    font-size: 13px;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    min-height: 20px;
+    transition: opacity 0.3s;
+  }
+  .spinner {
+    width: 40px;
+    height: 40px;
+    border: 2px solid var(--line);
+    border-top-color: var(--ink);
+    border-radius: 50%;
+    animation: spin 0.9s linear infinite;
+    margin: 0 auto;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* ── RESULT FREE ── */
+  #screen-result { gap: 0; min-height: 100vh; padding-top: 48px; padding-bottom: 40px; }
+
+  .result-eyebrow {
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 12px;
+  }
+  .result-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 28px;
+    margin-bottom: 28px;
+  }
+
+  .trait-line {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 32px;
+  }
+  .trait-tag {
+    background: var(--ink);
+    color: #fff;
+    border-radius: 3px;
+    padding: 6px 12px;
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    font-weight: 500;
+  }
+
+  .insight-block {
+    background: #fff;
+    border: 1.5px solid var(--line);
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 14px;
+  }
+  .insight-label {
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 8px;
+  }
+  .insight-text {
+    font-size: 14px;
+    line-height: 1.65;
+    color: #333;
+  }
+
+  .divider {
+    height: 1px;
+    background: var(--line);
+    margin: 28px 0;
+  }
+
+  .paywall-tease {
+    margin-bottom: 20px;
+  }
+  .paywall-tease p {
+    font-size: 14px;
+    color: #555;
+    line-height: 1.6;
+    margin-bottom: 14px;
+  }
+  .paywall-preview {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 24px;
+  }
+  .preview-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 13px;
+    color: #444;
+  }
+  .preview-item::before {
+    content: '';
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--paid);
+    flex-shrink: 0;
+  }
+
+  .btn-unlock {
+    width: 100%;
+    background: var(--paid);
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    padding: 18px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    letter-spacing: 0.02em;
+    transition: background 0.15s;
+  }
+  .btn-unlock:hover { background: #5a38e0; }
+  .price-note {
+    text-align: center;
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 10px;
+  }
+
+  /* ── PAID REPORT ── */
+  #screen-paid { gap: 0; padding-top: 48px; padding-bottom: 60px; }
+
+  .paid-header {
+    margin-bottom: 36px;
+  }
+  .paid-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--paid);
+    color: #fff;
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 20px;
+    margin-bottom: 14px;
+  }
+  .paid-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 26px;
+    line-height: 1.2;
+    margin-bottom: 8px;
+  }
+  .paid-sub {
+    font-size: 14px;
+    color: #666;
+    line-height: 1.55;
+  }
+
+  .section-head {
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 16px;
+    margin-top: 36px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .trait-card {
+    background: #fff;
+    border: 1.5px solid var(--line);
+    border-radius: 8px;
+    padding: 18px;
+    margin-bottom: 12px;
+  }
+  .trait-card-name {
+    font-family: 'DM Serif Display', serif;
+    font-size: 17px;
+    margin-bottom: 6px;
+  }
+  .trait-card-cat {
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--paid);
+    margin-bottom: 10px;
+  }
+  .trait-card-body {
+    font-size: 13px;
+    line-height: 1.65;
+    color: #444;
+  }
+  .trait-card-blind {
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid var(--line);
+    font-size: 12px;
+    color: #888;
+    line-height: 1.6;
+  }
+  .trait-card-blind strong { color: var(--ink); font-weight: 500; }
+
+  .interaction-item {
+    padding: 14px 0;
+    border-bottom: 1px solid var(--line);
+    font-size: 13px;
+    line-height: 1.6;
+    color: #444;
+  }
+  .interaction-item:last-child { border-bottom: none; }
+  .interaction-item strong { color: var(--ink); }
+
+  .leverage-block {
+    background: var(--accent);
+    color: #fff;
+    border-radius: 10px;
+    padding: 24px;
+    margin-top: 8px;
+  }
+  .leverage-label {
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--glow);
+    margin-bottom: 12px;
+  }
+  .leverage-insight {
+    font-family: 'DM Serif Display', serif;
+    font-size: 20px;
+    line-height: 1.4;
+    font-style: italic;
+    margin-bottom: 14px;
+  }
+  .leverage-body {
+    font-size: 13px;
+    line-height: 1.65;
+    color: rgba(255,255,255,0.7);
+  }
+
+  .retake-btn {
+    margin-top: 40px;
+    background: none;
+    border: 1.5px solid var(--line);
+    border-radius: 6px;
+    padding: 13px;
+    width: 100%;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    color: var(--muted);
+    cursor: pointer;
+    transition: border-color 0.15s, color 0.15s;
+  }
+  .retake-btn:hover { border-color: var(--ink); color: var(--ink); }
+
+  /* ── UTIL ── */
+  .blur-line {
+    filter: blur(5px);
+    user-select: none;
+    pointer-events: none;
+    color: #bbb;
+    font-size: 13px;
+    margin-top: 6px;
+  }
+
+  /* trait lead line */
+  .trait-lead {
+    font-family: 'DM Serif Display', serif;
+    font-size: 15px;
+    font-style: italic;
+    color: #666;
+    margin-top: 6px;
+    margin-bottom: 28px;
+    line-height: 1.5;
+  }
+
+  /* paywall hook */
+  .paywall-hook {
+    font-size: 15px;
+    color: var(--ink);
+    line-height: 1.65;
+    margin-bottom: 18px;
+  }
+  .paywall-hook strong { font-weight: 500; }
+  .paywall-hook em { font-style: italic; color: #555; }
+
+  /* ── ARCHETYPE BLOCK ── */
+  .archetype-block {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    margin-bottom: 24px;
+    padding: 14px 16px;
+    background: var(--ink);
+    border-radius: 6px;
+  }
+  .archetype-label {
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.4);
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .archetype-name {
+    font-family: 'DM Serif Display', serif;
+    font-size: 17px;
+    color: #fff;
+    line-height: 1.2;
+  }
+
+  /* internal tension block — slightly different from others */
+  .insight-tension {
+    border-color: #d4c9ff;
+    background: #f5f2ff;
+  }
+  .insight-tension .insight-label { color: var(--paid); }
+
+  /* share card archetype line */
+  .sc-archetype-tag {
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--glow);
+    margin-bottom: 10px;
+  }
+
+  /* paid report archetype sub-label */
+  .paid-archetype {
+    font-size: 12px;
+    color: rgba(255,255,255,0.5);
+    letter-spacing: 0.08em;
+    margin-bottom: 6px;
+    margin-top: 4px;
+  }
+  .share-wrap {
+    margin: 28px 0 0;
+  }
+  .share-label {
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 12px;
+  }
+  .share-card {
+    background: var(--ink);
+    border-radius: 12px;
+    padding: 32px 28px;
+    margin-bottom: 12px;
+    position: relative;
+    overflow: hidden;
+  }
+  .share-card::before {
+    content: '';
+    position: absolute;
+    top: -60px; right: -60px;
+    width: 200px; height: 200px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(200,184,255,0.15) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .share-card-inner { position: relative; }
+  .sc-eyebrow {
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.35);
+    margin-bottom: 20px;
+  }
+  .sc-traits {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(16px, 4vw, 22px);
+    color: #fff;
+    line-height: 1.45;
+    margin-bottom: 24px;
+  }
+  .sc-url {
+    font-size: 11px;
+    color: rgba(255,255,255,0.25);
+    letter-spacing: 0.1em;
+  }
+  .btn-share {
+    width: 100%;
+    background: none;
+    border: 1.5px solid var(--line);
+    border-radius: 6px;
+    padding: 13px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    color: var(--muted);
+    cursor: pointer;
+    transition: border-color 0.15s, color 0.15s;
+    margin-bottom: 28px;
+  }
+  .btn-share:hover { border-color: var(--ink); color: var(--ink); }
+</style>
+</head>
+<body>
+
+<!-- SCREEN 1: LANDING -->
+<div id="screen-landing" class="screen active">
+  <p class="eyebrow">Behavioral Analysis</p>
+  <h1>Your psychological <em>blueprint</em></h1>
+  <p class="sub">12 instinct-based questions. A precise map of how you think, react, and make decisions — not personality labels.</p>
+  <button class="btn-primary" onclick="startQuiz()">Start Your Analysis</button>
+  <p class="trust">12 questions · ~2 minutes · instant results</p>
+</div>
+
+<!-- SCREEN 2: QUIZ -->
+<div id="screen-quiz" class="screen">
+  <div class="progress-wrap">
+    <div class="progress-meta">
+      <span id="q-counter">Q1 / 12</span>
+      <span id="q-pct">0%</span>
+    </div>
+    <div class="progress-bar"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
+  </div>
+  <p class="question-text" id="question-text"></p>
+  <div class="options" id="options-wrap"></div>
+</div>
+
+<!-- SCREEN 3: LOADING -->
+<div id="screen-loading" class="screen">
+  <div class="spinner"></div>
+  <p class="loading-label" id="loading-label">Analyzing behavioral patterns…</p>
+</div>
+
+<!-- SCREEN 4: FREE RESULT -->
+<div id="screen-result" class="screen">
+  <!-- Trait line FIRST — no intro before it -->
+  <p class="result-eyebrow">Your Psychological Blueprint</p>
+  <div class="trait-line" id="trait-line"></div>
+  <p class="trait-lead" id="trait-lead"></p>
+
+  <!-- Archetype anchor — the named pattern -->
+  <div class="archetype-block">
+    <p class="archetype-label">Pattern</p>
+    <p class="archetype-name" id="archetype-name"></p>
+  </div>
+
+  <div class="insight-block">
+    <p class="insight-label">Core Pattern</p>
+    <p class="insight-text" id="insight-summary"></p>
+  </div>
+
+  <div class="insight-block">
+    <p class="insight-label">Strength</p>
+    <p class="insight-text" id="insight-strength"></p>
+  </div>
+
+  <div class="insight-block">
+    <p class="insight-label">Friction</p>
+    <p class="insight-text" id="insight-friction"></p>
+  </div>
+
+  <div class="insight-block insight-tension">
+    <p class="insight-label">Internal Tension</p>
+    <p class="insight-text" id="insight-tension"></p>
+  </div>
+
+  <!-- Share card -->
+  <div class="share-wrap">
+    <p class="share-label">Share your blueprint</p>
+    <div class="share-card" id="share-card">
+      <div class="share-card-inner">
+        <p class="sc-eyebrow">blueprint.</p>
+        <p class="sc-archetype-tag" id="sc-archetype"></p>
+        <p class="sc-traits" id="sc-traits"></p>
+        <p class="sc-url">blueprint.app</p>
+      </div>
+    </div>
+    <button class="btn-share" onclick="downloadCard()">↓ Save as Image</button>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="paywall-tease">
+    <p class="paywall-hook">These traits don't work in isolation — <strong>they interact.</strong> Your full profile shows exactly how they reinforce each other and what's actually shaping your behavior day to day.</p>
+    <div class="paywall-preview">
+      <div class="preview-item">What each trait means for <em>your</em> specific pattern</div>
+      <div class="preview-item">Interaction map — which traits amplify which</div>
+      <div class="preview-item">The blind spots you don't see in yourself</div>
+      <div class="preview-item">One leverage point to change the most with the least</div>
+    </div>
+    <button class="btn-unlock" onclick="unlockPaid()">See How Your Traits Interact — $4.99</button>
+    <p class="price-note">One-time · instant access</p>
+  </div>
+</div>
+
+<!-- SCREEN 5: PAID REPORT -->
+<div id="screen-paid" class="screen">
+  <div class="paid-header">
+    <div class="paid-badge">✦ Full Profile</div>
+    <h2 class="paid-title" id="paid-title">Your Complete Blueprint</h2>
+    <p class="paid-archetype" id="paid-archetype"></p>
+    <p class="paid-sub" id="paid-sub">Here's how your traits operate as a system — and where that system creates friction.</p>
+  </div>
+
+  <p class="section-head">Trait Breakdown</p>
+  <div id="trait-cards"></div>
+
+  <p class="section-head">Interaction Map</p>
+  <div id="interaction-map"></div>
+
+  <p class="section-head">Core Leverage Insight</p>
+  <div class="leverage-block">
+    <p class="leverage-label">Your primary constraint</p>
+    <p class="leverage-insight" id="leverage-insight"></p>
+    <p class="leverage-body" id="leverage-body"></p>
+  </div>
+
+  <button class="retake-btn" onclick="retake()">← Retake Analysis</button>
+</div>
+
+<script>
+// ── DATA ──────────────────────────────────────────────────────────────────
+
+const QUESTIONS = [
+  {
+    text: "When you need to decide quickly, you usually:",
+    options: [
+      { label: "Act immediately and adjust later", weights: { "Impulsive Action": 1, "Quick-Decisive": 1 } },
+      { label: "Think through every possible outcome first", weights: { "Analytical": 1, "Overthinking-Prone": 1 } },
+      { label: "Delay until you feel certain", weights: { "Overthinking-Prone": 0.5, "Inconsistent Execution": 0.5 } },
+      { label: "Trust your gut and move forward", weights: { "Intuitive": 1, "Quick-Decisive": 0.5 } }
+    ]
+  },
+  {
+    text: "When things get stressful, you tend to:",
+    options: [
+      { label: "Become more focused and structured", weights: { "Emotionally Stable": 1, "High Consistency": 1 } },
+      { label: "Overthink everything that could go wrong", weights: { "Overthinking-Prone": 1, "Mentally Overloaded": 1 } },
+      { label: "Shut down or avoid dealing with it", weights: { "Inconsistent Execution": 1, "Emotionally Detached": 0.5 } },
+      { label: "React emotionally in the moment", weights: { "Emotionally Reactive": 1.5 } }
+    ]
+  },
+  {
+    text: "After social interaction, you usually feel:",
+    options: [
+      { label: "Energized and stimulated", weights: { "Extroverted": 1.5 } },
+      { label: "Drained and needing space", weights: { "Introverted": 1.5 } },
+      { label: "Slightly anxious or self-aware", weights: { "Socially Anxious": 1.5 } },
+      { label: "Neutral but observant", weights: { "Introverted": 0.5, "Analytical": 0.5 } }
+    ]
+  },
+  {
+    text: "Your routines are usually:",
+    options: [
+      { label: "Stable and consistent", weights: { "High Consistency": 1.5, "Discipline-Driven": 1 } },
+      { label: "Strong at first, then fade", weights: { "Inconsistent Execution": 1, "Impulsive Action": 0.5 } },
+      { label: "Random bursts of effort", weights: { "Inconsistent Execution": 1.5 } },
+      { label: "Based on mood and motivation", weights: { "Emotionally Reactive": 0.5, "Meaning-Driven": 0.5 } }
+    ]
+  },
+  {
+    text: "You are most likely to take action when:",
+    options: [
+      { label: "There is pressure or urgency", weights: { "Impulsive Action": 0.5, "Achievement-Driven": 0.5 } },
+      { label: "You feel inspired or interested", weights: { "Curiosity-Driven": 1, "Meaning-Driven": 0.5 } },
+      { label: "You want a reward or outcome", weights: { "Achievement-Driven": 1.5 } },
+      { label: "You are trying to prove yourself", weights: { "Achievement-Driven": 1, "Emotionally Reactive": 0.5 } }
+    ]
+  },
+  {
+    text: "When something goes wrong, you usually:",
+    options: [
+      { label: "Stay calm and solve it", weights: { "Emotionally Stable": 1.5, "Analytical": 0.5 } },
+      { label: "Think about it repeatedly", weights: { "Overthinking-Prone": 1.5, "Mentally Overloaded": 0.5 } },
+      { label: "Feel it strongly and emotionally", weights: { "Emotionally Reactive": 1.5, "High Empathy": 0.5 } },
+      { label: "Pull back and process alone", weights: { "Introverted": 0.5, "Emotionally Detached": 1 } }
+    ]
+  },
+  {
+    text: "Your attention is best described as:",
+    options: [
+      { label: "Deep and structured", weights: { "Analytical": 1.5, "Mentally Clear": 1 } },
+      { label: "Fast but scattered", weights: { "Impulsive Action": 0.5, "Mentally Overloaded": 0.5 } },
+      { label: "Strong but short-lived", weights: { "Inconsistent Execution": 1 } },
+      { label: "Easily disrupted", weights: { "Mentally Overloaded": 1, "Overthinking-Prone": 0.5 } }
+    ]
+  },
+  {
+    text: "In groups, you usually:",
+    options: [
+      { label: "Lead or take initiative", weights: { "Extroverted": 1, "Achievement-Driven": 0.5 } },
+      { label: "Observe more than speak", weights: { "Introverted": 1, "Analytical": 0.5 } },
+      { label: "Try to fit in comfortably", weights: { "Socially Anxious": 0.5, "Security-Driven": 0.5 } },
+      { label: "Prefer to stay independent", weights: { "Introverted": 0.5, "Emotionally Detached": 0.5 } }
+    ]
+  },
+  {
+    text: "Most of the time, you feel:",
+    options: [
+      { label: "Emotionally steady", weights: { "Emotionally Stable": 1.5 } },
+      { label: "Up and down", weights: { "Emotionally Reactive": 1.5 } },
+      { label: "Low energy or heavy", weights: { "Mentally Overloaded": 1, "Inconsistent Execution": 0.5 } },
+      { label: "Detached or distant", weights: { "Emotionally Detached": 1.5 } }
+    ]
+  },
+  {
+    text: "After making decisions, you often:",
+    options: [
+      { label: "Move on quickly", weights: { "Quick-Decisive": 1.5 } },
+      { label: "Reanalyze what you chose", weights: { "Overthinking-Prone": 1.5 } },
+      { label: "Doubt yourself", weights: { "Overthinking-Prone": 1, "Inconsistent Execution": 0.5 } },
+      { label: "Avoid making similar decisions again", weights: { "Security-Driven": 1, "Mentally Overloaded": 0.5 } }
+    ]
+  },
+  {
+    text: "What feels most like your internal driver?",
+    options: [
+      { label: "Achievement and progress", weights: { "Achievement-Driven": 1.5 } },
+      { label: "Meaning and purpose", weights: { "Meaning-Driven": 1.5 } },
+      { label: "Security and stability", weights: { "Security-Driven": 1.5 } },
+      { label: "Curiosity and exploration", weights: { "Curiosity-Driven": 1.5 } }
+    ]
+  },
+  {
+    text: "Your mind usually feels:",
+    options: [
+      { label: "Clear and structured", weights: { "Mentally Clear": 1.5, "Analytical": 0.5 } },
+      { label: "Busy and overloaded", weights: { "Mentally Overloaded": 1.5, "Overthinking-Prone": 0.5 } },
+      { label: "Fast and chaotic", weights: { "Impulsive Action": 0.5, "Mentally Overloaded": 1 } },
+      { label: "Calm but slow-moving", weights: { "Mentally Clear": 0.5, "Emotionally Stable": 0.5 } }
+    ]
+  }
+];
+
+const TRAIT_META = {
+  "Analytical": {
+    cat: "Thinking",
+    desc: "You don't move until you understand the structure. Problems get broken down before they get acted on — you're gathering information while others are already guessing. This is a real edge in complex situations.",
+    blind: "You can spend hours optimizing a decision that didn't need optimization. The map becomes the destination, and momentum stalls while you're still building it."
+  },
+  "Intuitive": {
+    cat: "Thinking",
+    desc: "Your conclusions arrive before your reasoning does. You'll sense the right answer in a meeting, then spend ten minutes figuring out how to justify it. You're usually right — but it feels like luck from the outside.",
+    blind: "When your intuition is wrong, you have no framework to catch it. You can be confidently off-track without realizing it until late."
+  },
+  "Overthinking-Prone": {
+    cat: "Thinking",
+    desc: "You return to already-made decisions. You replay conversations. You run outcomes in your head that have a 10% chance of happening. Your brain treats uncertainty as a problem to be solved — not a condition to be accepted.",
+    blind: "You spend cognitive energy on futures that don't arrive. By the time something actually needs your attention, you've already burned resources on the version of it you imagined."
+  },
+  "Quick-Decisive": {
+    cat: "Thinking",
+    desc: "You are the person who decides. Ambiguity feels like waste — you'd rather be wrong and moving than right and stalled. You make calls others are still deliberating over, and you move on from them cleanly.",
+    blind: "You occasionally commit before the picture is full. The details that matter surface later, and course-correcting costs more than the original decision would have."
+  },
+  "Emotionally Reactive": {
+    cat: "Emotional",
+    desc: "You feel things immediately and at full volume. An offhand comment can shift your entire internal state. This is not weakness — it's a high-sensitivity system that picks up signals others miss. The cost is that it doesn't filter well.",
+    blind: "Your emotional responses can move faster than your reasoning. What you say or do in the first thirty seconds of a charged moment often creates the most cleanup later."
+  },
+  "Emotionally Stable": {
+    cat: "Emotional",
+    desc: "You have a floor. Disruptions register, but don't knock you into a different operating mode. People rely on your presence during difficult situations — you're the person who doesn't make hard things harder.",
+    blind: "Your steadiness can read as not caring. When people are in distress, they sometimes need emotional mirroring — not just calm. You may underinvest in that signal."
+  },
+  "High Empathy": {
+    cat: "Emotional",
+    desc: "You walk into a room and immediately pick up what's wrong. You notice the person who's slightly off, the tension in a conversation, the thing no one's saying. You carry other people's states as part of your own experience.",
+    blind: "Your bandwidth fills with other people's load before your own. In high-social environments, you can end a day exhausted without having done anything 'hard' — because processing others' emotions is actual cognitive work."
+  },
+  "Emotionally Detached": {
+    cat: "Emotional",
+    desc: "You process internally and broadcast very little. Emotional events move through you without much visible effect. You can operate clearly in situations that destabilize others.",
+    blind: "People can't read you, which means they fill in the gap with their own assumptions — usually negative ones. Distance that feels neutral to you can feel like rejection to someone else."
+  },
+  "Introverted": {
+    cat: "Social",
+    desc: "Social energy is a real, finite resource you manage carefully. You can perform in group settings — you just pay for it. Extended social time creates a debt that silence and solitude repay.",
+    blind: "Withdrawal under stress is automatic. The people closest to you may need engagement at exactly the moment you're conserving energy, which creates a gap neither of you fully understands."
+  },
+  "Extroverted": {
+    cat: "Social",
+    desc: "You think through talking. Ideas sharpen through interaction, not before it. Being alone too long creates a kind of mental stagnation — you need friction with other minds to get clear.",
+    blind: "You can mistake activity for progress. The conversation felt productive. The energy was high. But without quiet processing time, the output can be shallower than it looks."
+  },
+  "Socially Anxious": {
+    cat: "Social",
+    desc: "You arrive at social situations already running a background process: how am I landing, what did that mean, was that too much or not enough. You care about how you're perceived — not from vanity, but because it genuinely matters to you.",
+    blind: "The self-monitoring costs you presence. While you're tracking how you're coming across, you miss what's actually happening — and the connection you were trying to build slips."
+  },
+  "High Consistency": {
+    cat: "Execution",
+    desc: "You do what you said you'd do, when you said you'd do it. This is rarer than people think. You don't need motivation to start — you've built systems that reduce the decision to nothing.",
+    blind: "Consistency can become rigidity without noticing. You can hold onto a system that stopped serving you because breaking it feels like failure."
+  },
+  "Inconsistent Execution": {
+    cat: "Execution",
+    desc: "You are capable of exceptional effort — in bursts. The output when you're on is real. But sustaining it across weeks is a different problem, and it's the one that keeps showing up. Projects start strong and trail off. Habits build and collapse.",
+    blind: "The inconsistency erodes your self-trust more than your output. You start to suspect that you're not someone who finishes things — and that belief starts making it true."
+  },
+  "Discipline-Driven": {
+    cat: "Execution",
+    desc: "Structure isn't a cage for you — it's how you operate at full capacity. You perform best when the environment, the schedule, and the expectations are clear. You've built more than willpower; you've built systems.",
+    blind: "When the structure gets disrupted — a chaotic week, a broken routine — performance drops more than it should. You're reliant on conditions you don't always control."
+  },
+  "Impulsive Action": {
+    cat: "Execution",
+    desc: "You are in motion before most people have decided to move. The energy arrives and you act on it. Inertia is genuinely uncomfortable — waiting feels like falling behind, even when waiting is correct.",
+    blind: "You have a graveyard of started things. Each one carries a small piece of background load. The constraint isn't energy — it's the compounding weight of incomplete cycles that never fully close."
+  },
+  "Achievement-Driven": {
+    cat: "Motivation",
+    desc: "Progress is the metric. You need to be able to point to something and say it moved. Effort without a visible result feels hollow — you're not working for the process, you're working for the outcome.",
+    blind: "Rest is hard to access without guilt. You've built an internal system where output equals value, and taking your foot off the accelerator feels like losing ground — even when recovery is the actual work."
+  },
+  "Meaning-Driven": {
+    cat: "Motivation",
+    desc: "You can outwork almost anyone — when the work means something. Purpose is not a motivational accessory for you, it's a prerequisite. Without the why, the how doesn't get activated.",
+    blind: "You can be disproportionately stalled by work that feels meaningless, even when it's necessary. Not everything important feels significant, and that gap is where execution breaks down."
+  },
+  "Security-Driven": {
+    cat: "Motivation",
+    desc: "Stability is what enables everything else. You make decisions with a risk-adjusted lens — not because you're timid, but because unpredictability is a real cost you account for before others do.",
+    blind: "Optimizing for safety can tip into optimizing for stasis. Opportunities that require real exposure get deferred, then deferred again, until the window closes."
+  },
+  "Curiosity-Driven": {
+    cat: "Motivation",
+    desc: "Ideas generate momentum for you that obligation never does. A new system, a weird problem, an unexplored question — that's when you show up at full capacity. You're built for depth in domains that capture you.",
+    blind: "Curiosity moves faster than completion. You're often three interests ahead of your last finished project. The breadth is real, but it trades against depth and follow-through."
+  },
+  "Mentally Clear": {
+    cat: "Cognitive",
+    desc: "Your internal state has low baseline noise. Thinking is efficient, organized, and directed — you don't lose hours to mental friction. When a task needs focus, you can point your attention and it stays.",
+    blind: "You can underestimate the cognitive load others are carrying. What feels like a simple problem to you is genuinely hard for someone running a heavier mental background load — and that gap affects how you collaborate."
+  },
+  "Mentally Overloaded": {
+    cat: "Cognitive",
+    desc: "Your cognitive baseline is high. Multiple things run simultaneously — tasks you haven't started, conversations you're rehearsing, risks you're monitoring. It's not anxiety exactly. It's more like too many tabs.",
+    blind: "The background load is invisible to others but consumes real capacity. You're performing at partial bandwidth more often than you realize — and the cost shows in the quality of your focus, not its presence."
+  }
+};
+
+// ── STATE ──────────────────────────────────────────────────────────────────
+
+let currentQ = 0;
+let scores = {};
+let topTraits = [];
+
+// ── NAVIGATION ──────────────────────────────────────────────────────────────
+
+function show(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0, 0);
+}
+
+function startQuiz() {
+  currentQ = 0;
+  scores = {};
+  show('screen-quiz');
+  renderQuestion();
+}
+
+function renderQuestion() {
+  const q = QUESTIONS[currentQ];
+  const pct = Math.round((currentQ / QUESTIONS.length) * 100);
+
+  document.getElementById('q-counter').textContent = `Q${currentQ + 1} / ${QUESTIONS.length}`;
+  document.getElementById('q-pct').textContent = pct + '%';
+  document.getElementById('progress-fill').style.width = pct + '%';
+  document.getElementById('question-text').textContent = q.text;
+
+  const wrap = document.getElementById('options-wrap');
+  wrap.innerHTML = '';
+  const letters = ['A', 'B', 'C', 'D'];
+  q.options.forEach((opt, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'option-btn';
+    btn.innerHTML = `<span class="opt-letter">${letters[i]}</span>${opt.label}`;
+    btn.onclick = () => selectAnswer(opt.weights);
+    wrap.appendChild(btn);
+  });
+}
+
+function selectAnswer(weights) {
+  for (const [trait, w] of Object.entries(weights)) {
+    scores[trait] = (scores[trait] || 0) + w;
+  }
+  currentQ++;
+  if (currentQ < QUESTIONS.length) {
+    renderQuestion();
+  } else {
+    runLoading();
+  }
+}
+
+// ── LOADING ──────────────────────────────────────────────────────────────────
+
+const loadingTexts = [
+  "Analyzing behavioral patterns…",
+  "Mapping cognitive tendencies…",
+  "Weighting emotional response…",
+  "Constructing your blueprint…"
+];
+
+function runLoading() {
+  show('screen-loading');
+  let i = 0;
+  const lbl = document.getElementById('loading-label');
+  const interval = setInterval(() => {
+    lbl.textContent = loadingTexts[i % loadingTexts.length];
+    i++;
+  }, 700);
+  setTimeout(() => {
+    clearInterval(interval);
+    computeResult();
+    show('screen-result');
+  }, 2800);
+}
+
+// ── SCORING ──────────────────────────────────────────────────────────────────
+
+function computeResult() {
+  // sort by score descending, take top 5–6
+  const sorted = Object.entries(scores)
+    .sort((a, b) => b[1] - a[1]);
+  topTraits = sorted.slice(0, 6).map(([t]) => t);
+
+  renderFreeResult();
+  renderPaidReport();
+}
+
+// ── FREE RESULT ──────────────────────────────────────────────────────────────
+
+// ── ARCHETYPE PATTERN LIBRARY (v3 — classifier-validated) ────────────────
+// 15 archetypes covering ~98% of trait combinations.
+// Triggers are position-weighted: index 0 = weight 4, index 3 = weight 1.
+// All archetypes have been stress-tested across 20 trait combinations.
+
+const ARCHETYPES = [
+  {
+    id: "overthinking-execution-loop",
+    name: "The Overthinker's Trap",
+    triggers: ["Overthinking-Prone", "Inconsistent Execution", "Analytical", "Mentally Overloaded"],
+    summary: "You think through decisions faster than you act on them. The analysis is real and often accurate — the problem is it runs past the point of useful return. Momentum waits for a certainty that never fully arrives.",
+    strength: "High-quality judgment when time allows. You rarely commit to something you haven't examined from multiple angles.",
+    friction: "Execution stalls at the threshold of action. The thinking cycle and the doing cycle don't connect cleanly.",
+    tension: "You know what to do more often than you do it — and that gap quietly compounds."
+  },
+  {
+    id: "emotional-signal-processor",
+    name: "Feels Everything First",
+    triggers: ["Emotionally Reactive", "High Empathy", "Mentally Overloaded", "Socially Anxious"],
+    summary: "You receive emotional signals from your environment at high volume. The world comes in louder for you than for most people — and you process it before logic gets a turn.",
+    strength: "Social perception and emotional attunement most people don't have access to. You read rooms accurately and often.",
+    friction: "Emotional data crowds out analytical data at exactly the moments clarity matters most.",
+    tension: "The same sensitivity that makes you perceptive makes you hard to protect from other people's states."
+  },
+  {
+    id: "analytical-delay-loop",
+    name: "The Slow Commitment",
+    triggers: ["Analytical", "Overthinking-Prone", "Security-Driven", "Mentally Clear"],
+    summary: "You extend the thinking phase to reduce uncertainty before committing. This is rational — more information does produce better decisions. The problem is that real-world timelines don't wait for complete pictures.",
+    strength: "Decision quality when time allows. Your judgment is usually sound when you've had the space to work it through.",
+    friction: "Speed is the trade-off. In fast-moving environments, the delay carries a cost that precision doesn't always offset.",
+    tension: "You know waiting too long is its own failure mode — and you do it anyway, because incomplete data feels genuinely uncomfortable."
+  },
+  {
+    id: "reactive-decision-system",
+    name: "Act Now, Reflect Later",
+    triggers: ["Emotionally Reactive", "Quick-Decisive", "Impulsive Action", "Achievement-Driven"],
+    summary: "Your decisions are fast and feeling-forward. You respond to what's in front of you with immediacy — in most situations, that speed is a real asset. The cost shows up in the aftermath.",
+    strength: "Real-time responsiveness. You make calls quickly and move on — you're rarely paralyzed.",
+    friction: "The window for reflection is short. High-emotion decisions can require repair work that slower processing would have avoided.",
+    tension: "Speed is genuine — but the regret cycles that follow charged decisions are also real and recurring."
+  },
+  {
+    id: "forward-motion-bias",
+    name: "Always Moving",
+    triggers: ["Extroverted", "Achievement-Driven", "Quick-Decisive", "Impulsive Action"],
+    summary: "Stillness is uncomfortable. You move toward outcomes, initiate, push things forward. Waiting for perfect conditions feels like falling behind — so you rarely wait.",
+    strength: "Initiative and momentum generation. You create movement where others are still deliberating.",
+    friction: "The bias toward action can outrun the need for accuracy. Speed costs quality in the places where quality compounds.",
+    tension: "You accumulate incomplete cycles — each one small, but collectively creating a background weight that never fully clears."
+  },
+  {
+    id: "meaning-architecture",
+    name: "Needs a Reason to Move",
+    triggers: ["Meaning-Driven", "Intuitive", "Achievement-Driven", "Emotionally Stable"],
+    summary: "Your effort is conditional on connection to purpose. You can outwork almost anyone when the work means something — and stall completely when it doesn't. You're not undisciplined; you're purpose-dependent.",
+    strength: "Extraordinary output in high-meaning domains. You're capable of unusual depth and sustained effort when engaged.",
+    friction: "Necessary-but-low-meaning work is a real constraint. Not everything important feels significant, and that gap shows up as inconsistency.",
+    tension: "You can intellectually accept that something matters while feeling completely unmoved by it — and that gap is hard to explain to people motivated differently."
+  },
+  {
+    id: "structured-achiever",
+    name: "Structured Achiever",
+    triggers: ["Achievement-Driven", "Discipline-Driven", "Analytical", "Mentally Clear"],
+    summary: "You impose structure because structure is how you perform. Goals, systems, and measurable progress aren't just tools — they're the operating environment you build around yourself to work at full capacity.",
+    strength: "You get things done, consistently, at a high standard. That combination is genuinely rare.",
+    friction: "The internal pressure that drives output makes rest feel like failure. Recovery is genuinely hard to access.",
+    tension: "When the system meets conditions it wasn't designed for, performance drops sharply — not from incapability, but because the scaffolding is gone."
+  },
+  {
+    id: "stability-seeking-executor",
+    name: "Built for Certainty",
+    triggers: ["High Consistency", "Discipline-Driven", "Security-Driven", "Emotionally Stable"],
+    summary: "You perform best when the environment is predictable and expectations are clear. Structure isn't a limitation — it's the operating condition that unlocks your best output.",
+    strength: "Reliable, consistent, and dependable under sustained pressure. You do what you said you'd do.",
+    friction: "When conditions change unexpectedly, performance dips more than it should. You're dependent on conditions you don't always control.",
+    tension: "The systems that serve you can become constraints — and adapting them feels like breaking something that works."
+  },
+  {
+    id: "steady-ground",
+    name: "Steady Ground",
+    triggers: ["Emotionally Stable", "Mentally Clear", "Introverted", "Emotionally Detached"],
+    summary: "You operate from a quiet, stable baseline that most people don't have. Disruptions register, but don't destabilize you. You're the person others rely on when situations get hard.",
+    strength: "Consistent performance across variable conditions. You don't amplify problems — you absorb them.",
+    friction: "Steadiness can read as absence. When others are in distress, your neutrality can feel like you're not there.",
+    tension: "You rarely ask for what you need, because you've built an identity around not needing much. That's a system with a slow leak."
+  },
+  {
+    id: "detached-observer",
+    name: "Detached Observer",
+    triggers: ["Emotionally Detached", "Analytical", "Security-Driven", "Introverted"],
+    summary: "You observe more than you engage. Emotional events move through you without much visible effect — you're watching, processing, forming views while appearing absent or unaffected.",
+    strength: "Clarity and objectivity under pressure. You can see situations as they are, not as they feel.",
+    friction: "The distance that feels neutral to you can feel like indifference or rejection to the people closest to you.",
+    tension: "Connection requires a kind of deliberate effort that doesn't come naturally to your operating mode."
+  },
+  {
+    id: "internalized-processor",
+    name: "Processes Alone",
+    triggers: ["Introverted", "High Empathy", "Overthinking-Prone", "Emotionally Stable"],
+    summary: "You feel things deeply and process them privately. There's a rich interior life that rarely reaches the surface intact — by the time you express anything, you've run it through a dozen internal passes.",
+    strength: "Self-awareness and the ability to hold complexity without needing to resolve it immediately.",
+    friction: "The gap between what's happening inside and what's visible outside creates regular misreads from the people around you.",
+    tension: "People close to you often have no idea what you're actually carrying — which can feel like isolation even when you chose the distance."
+  },
+  {
+    id: "inconsistent-drive-cycles",
+    name: "Runs Hot, Then Cold",
+    triggers: ["Inconsistent Execution", "Emotionally Reactive", "Meaning-Driven", "Impulsive Action"],
+    summary: "Your motivation arrives in waves — intense, genuine, and real — then recedes. You're not undisciplined. You're running a system that depletes without a structured recovery phase.",
+    strength: "Exceptional output during high-activation periods. Your burst performance is real and often impressive to others.",
+    friction: "Long-term goals require consistency that outlasts the wave — and that's where the pattern breaks.",
+    tension: "Each incomplete cycle makes the next one harder to start — not from laziness, but from accumulated self-doubt."
+  },
+  {
+    id: "curiosity-dispersed",
+    name: "Chases Everything",
+    triggers: ["Curiosity-Driven", "Inconsistent Execution", "Impulsive Action", "Analytical"],
+    summary: "New problems and ideas pull your attention naturally and genuinely. The interest is real. The challenge is that curiosity moves faster than completion — you often have more interesting things to start than finished ones to show.",
+    strength: "Wide-range pattern recognition and the ability to learn quickly across domains. You make unexpected connections.",
+    friction: "Depth trades against breadth. You understand many things partially, and fewer things fully.",
+    tension: "The work you leave behind doesn't disappear — it accumulates as background load that slowly makes starting new things harder."
+  },
+  {
+    id: "high-load-pattern-reader",
+    name: "Overloaded Thinker",
+    triggers: ["Mentally Overloaded", "Overthinking-Prone", "High Empathy", "Analytical"],
+    summary: "Your mind processes multiple signals simultaneously — environment, people, tasks, risks, possibilities. This is not anxiety. It's a cognitive system running at high bandwidth, all the time.",
+    strength: "Pattern recognition across complex inputs. You often see connections and risks others miss entirely.",
+    friction: "Background load degrades focus quality. You're rarely at full bandwidth because the system never fully empties.",
+    tension: "High intelligence and high cognitive load produce a frustrating combination: you understand the problem clearly and still can't get to it."
+  },
+  {
+    id: "social-calibration-mode",
+    name: "Always Reading the Room",
+    triggers: ["Socially Anxious", "Extroverted", "High Empathy", "Emotionally Reactive"],
+    summary: "You read social environments continuously and adjust in real time. You're tracking tone, reception, and signals others don't consciously notice — and adapting before you've decided to.",
+    strength: "High social intelligence and adaptability. You almost never accidentally alienate people because you're always sensing the room.",
+    friction: "The calibration process consumes bandwidth that could go to presence, depth, or your own clarity.",
+    tension: "You can be whoever the room needs — which makes it hard to stay grounded in who you actually are across different environments."
+  }
+];
+
+// Scoring: position-weighted trigger match.
+// Tiebreaker: if scores equal, prefer archetype whose FIRST trigger matches.
+function getBestArchetype() {
+  let results = ARCHETYPES.map(arch => {
+    let score = 0, maxPossible = 0;
+    arch.triggers.forEach((t, i) => {
+      const w = arch.triggers.length - i;
+      maxPossible += w;
+      if (topTraits.includes(t)) score += w;
+    });
+    const firstMatch = topTraits.includes(arch.triggers[0]);
+    return { arch, score, maxPossible, confidence: score / maxPossible, firstMatch };
+  });
+
+  results.sort((a, b) => {
+    if (b.score !== a.score) return b.score - a.score;
+    // Tiebreaker: prefer archetype whose primary trigger appears in user's top traits
+    if (a.firstMatch !== b.firstMatch) return b.firstMatch ? 1 : -1;
+    // Secondary tiebreaker: higher confidence (normalized score)
+    return b.confidence - a.confidence;
+  });
+
+  return results[0].arch;
+}
+
+function renderFreeResult() {
+  const arch = getBestArchetype();
+
+  // Trait tags — FIRST thing user sees
+  const line = document.getElementById('trait-line');
+  line.innerHTML = '';
+  topTraits.forEach(t => {
+    const tag = document.createElement('span');
+    tag.className = 'trait-tag';
+    tag.textContent = t;
+    line.appendChild(tag);
+  });
+
+  // One-line lead — dominant trait compressed into a sentence
+  const LEADS = {
+    "Overthinking-Prone":    "Your mind doesn't stop when the problem does.",
+    "Emotionally Reactive":  "You feel things before you've finished thinking about them.",
+    "Analytical":            "You need the structure before you'll trust the move.",
+    "Impulsive Action":      "You're already in motion while others are still deciding.",
+    "Inconsistent Execution":"You're capable. Sustaining it is the actual problem.",
+    "Emotionally Stable":    "You're the one who doesn't make hard situations harder.",
+    "High Empathy":          "You carry other people's states as part of your own experience.",
+    "Introverted":           "Social energy is finite — you manage it carefully.",
+    "Achievement-Driven":    "Progress is the metric. Everything else is overhead.",
+    "Meaning-Driven":        "Without the why, the how doesn't get activated.",
+    "Mentally Overloaded":   "Too many tabs open — and none fully loading.",
+    "Curiosity-Driven":      "You show up fully when the problem is genuinely interesting.",
+    "Quick-Decisive":        "You decide. That's rarer than it sounds.",
+    "Intuitive":             "You know before you can explain why.",
+    "Emotionally Detached":  "You process everything. You broadcast almost nothing.",
+    "Extroverted":           "Other people are where you do your thinking.",
+    "High Consistency":      "You do what you said you'd do. Every time.",
+    "Discipline-Driven":     "Structure isn't a constraint — it's how you perform.",
+    "Security-Driven":       "Stability is the precondition. Everything else comes after.",
+    "Mentally Clear":        "Low noise. High focus. Rare baseline.",
+  };
+  const lead = LEADS[topTraits[0]] || "This is your behavioral operating system.";
+  document.getElementById('trait-lead').textContent = lead;
+
+  // Archetype name — the anchor
+  document.getElementById('archetype-name').textContent = arch.name;
+
+  // Insights
+  document.getElementById('insight-summary').textContent = arch.summary;
+  document.getElementById('insight-strength').textContent = arch.strength;
+  document.getElementById('insight-friction').textContent = arch.friction;
+  document.getElementById('insight-tension').textContent = arch.tension;
+
+  // Share card — include archetype
+  document.getElementById('sc-traits').textContent = topTraits.join('  ·  ');
+  document.getElementById('sc-archetype').textContent = arch.name;
+}
+
+// ── PAID REPORT ──────────────────────────────────────────────────────────────
+
+const INTERACTIONS = [
+  ["Overthinking-Prone", "Inconsistent Execution", "Overthinking amplifies under emotional activation, directly reducing follow-through on tasks that require sustained effort."],
+  ["Emotionally Reactive", "Overthinking-Prone", "Emotional intensity feeds back into cognitive loops — reactive moments generate more analysis, not resolution."],
+  ["High Empathy", "Mentally Overloaded", "High social sensitivity adds to cognitive load. Processing others' emotional states competes with bandwidth for your own goals."],
+  ["Analytical", "Mentally Clear", "Structured thinking paired with low cognitive noise creates a compounding advantage — problems get solved faster with less friction."],
+  ["Impulsive Action", "Inconsistent Execution", "Speed of initiation is high, but the same energy that starts things doesn't sustain them — creating a pattern of incomplete cycles."],
+  ["Meaning-Driven", "Inconsistent Execution", "When work loses personal relevance, execution consistency drops sharply — not from laziness, but from disconnection."],
+  ["Achievement-Driven", "Emotionally Reactive", "High drive amplifies emotional reactions to setbacks. The same intensity that fuels progress makes failures hit harder."],
+  ["Emotionally Stable", "High Consistency", "Stable emotional baseline directly supports behavioral consistency — these two traits compound each other over time."]
+];
+
+function renderPaidReport() {
+  const arch = getBestArchetype();
+
+  // Paid header
+  document.getElementById('paid-title').textContent = arch.name;
+  document.getElementById('paid-archetype').textContent = topTraits.slice(0, 3).join('  ·  ');
+
+  const cards = document.getElementById('trait-cards');
+  cards.innerHTML = '';
+  topTraits.forEach(t => {
+    const meta = TRAIT_META[t];
+    if (!meta) return;
+    const card = document.createElement('div');
+    card.className = 'trait-card';
+    card.innerHTML = `
+      <p class="trait-card-cat">${meta.cat}</p>
+      <h3 class="trait-card-name">${t}</h3>
+      <p class="trait-card-body">${meta.desc}</p>
+      <p class="trait-card-blind"><strong>Blind spot —</strong> ${meta.blind}</p>
+    `;
+    cards.appendChild(card);
+  });
+
+  // Interactions relevant to user's traits
+  const map = document.getElementById('interaction-map');
+  map.innerHTML = '';
+  let shown = 0;
+  for (const [t1, t2, text] of INTERACTIONS) {
+    if (topTraits.includes(t1) && topTraits.includes(t2)) {
+      const item = document.createElement('div');
+      item.className = 'interaction-item';
+      item.innerHTML = `<strong>${t1} × ${t2}</strong><br>${text}`;
+      map.appendChild(item);
+      shown++;
+    }
+  }
+  if (shown === 0) {
+    // fallback: show generic interactions for first two traits
+    const item = document.createElement('div');
+    item.className = 'interaction-item';
+    item.innerHTML = `<strong>${topTraits[0]} × ${topTraits[1]}</strong><br>These two patterns tend to operate on the same axis — your dominant mode in one reinforces the other under pressure.`;
+    map.appendChild(item);
+  }
+
+  // Leverage insight
+  const topTrait = topTraits[0];
+  const meta = TRAIT_META[topTrait];
+  const leverageMap = {
+    "Overthinking-Prone":    ["The constraint isn't capability — it's the cost of running unresolved loops.", "Most of your effort doesn't go toward problems. It goes toward managing the mental load created by incomplete decisions. Reducing open loops — not increasing productivity — is the actual lever."],
+    "Emotionally Reactive":  ["Your emotional bandwidth is the ceiling on your execution bandwidth.", "The same sensitivity that drives insight creates noise at the exact moments you need clarity. The bottleneck isn't motivation — it's the energy lost processing intensity that doesn't require a full response."],
+    "Inconsistent Execution":["Consistency is not a motivation problem. It's a recovery problem.", "Your pattern runs in cycles because effort depletes without a structured recovery phase. The fix isn't more discipline — it's shorter loops with defined endpoints so momentum resets instead of collapses."],
+    "Analytical":            ["Your biggest risk is optimizing the wrong problem.", "Deep analysis creates clarity on what you're examining — not necessarily what matters most. The highest-return move is often faster and messier than your instinct allows."],
+    "Impulsive Action":      ["Speed is real — but unfinished cycles are the actual cost.", "Each incomplete cycle leaves background load that builds. The constraint isn't starting — it's the compounding weight of what never closes."],
+    "Intuitive":             ["Your instinct is an asset. Your inability to explain it is the liability.", "You're right more often than you can justify. The leverage point is building frameworks to communicate your reads to others — not slowing down your thinking, but translating it."],
+    "Quick-Decisive":        ["You make decisions fast. The real skill is knowing which ones to slow down.", "Speed has compounding returns — but only when applied to the right decisions. The leverage is developing a filter for when fast is correct versus when it's costing you quality you don't immediately see."],
+    "Emotionally Stable":    ["Stability is your edge. Legibility is the gap.", "You perform well under pressure. The constraint is signal — people can't read you, so they assume the worst in silence. A small investment in visible emotional response pays outsized relationship returns."],
+    "High Empathy":          ["You carry other people's load as your own. That's the cost center.", "Your capacity for others is real. The leverage is a deliberate protocol for when you take on emotional load and when you set it down — not suppressing sensitivity, but managing its cost."],
+    "Emotionally Detached":  ["Distance is functional until it becomes the relationship's defining dynamic.", "Your processing style is internal — that's fine. The leverage point is building deliberate signals of engagement, not because you need to feel more, but because others need to see that you're present."],
+    "Introverted":           ["Your energy management is good. Your communication of it usually isn't.", "You withdraw under load — that's correct. The leverage is giving the people closest to you a legible signal when it's happening, so withdrawal doesn't read as disengagement from them specifically."],
+    "Extroverted":           ["Social processing is your strength. Unprocessed depth is the gap.", "You think through talking — which is fast and generative. The constraint is that some of your best thinking never gets consolidated. A small habit of solo processing after high-interaction periods compounds your output quality."],
+    "Socially Anxious":      ["The monitoring system is real — but it's solving for the wrong problem.", "You're tracking how you're landing rather than what's actually happening. The leverage point is recognizing that the people you're most anxious around are usually not evaluating you the way you're evaluating yourself."],
+    "High Consistency":      ["Your systems work. Your rigidity is where they break.", "You operate best with structure — that's a real advantage. The leverage is building deliberate flexibility checkpoints into your systems so they adapt before they snap under pressure."],
+    "Discipline-Driven":     ["The system is the asset. Dependence on it is the risk.", "You perform well under structure. The leverage is stress-testing your systems against disruption — not to break them, but to build versions that survive real conditions rather than only ideal ones."],
+    "Achievement-Driven":    ["Output is your fuel — and your blind spot.", "Progress feels like the thing. But the recovery debt is real. The leverage is reframing rest as a performance input, not a pause from performance — because the system you're running eventually runs out."],
+    "Meaning-Driven":        ["Meaning is the prerequisite. Sustaining output without it is the actual skill to develop.", "You show up fully when work connects to something real. The leverage is building a minimum viable meaning framework for necessary-but-low-signal work — so it doesn't halt your whole system."],
+    "Security-Driven":       ["Stability is a precondition. It becomes a ceiling when it replaces movement.", "You optimize against risk before gain — which is rational. The leverage is distinguishing between real risk and discomfort that's being coded as risk, because those two things look identical from the inside."],
+    "Curiosity-Driven":      ["Curiosity generates the energy. Finishing generates the compound.", "You engage fully when something has captured your attention. The constraint is that engagement moves faster than completion. The leverage is building close-out rituals for cycles so that breadth becomes depth over time."],
+    "Mentally Clear":        ["Your clarity is real. Don't mistake it for simple problems.", "Low cognitive noise is a genuine advantage. The leverage point is using it deliberately — taking on complex problems when you're in this state rather than coasting on the clarity for easy tasks."],
+    "Mentally Overloaded":   ["The load is real. It's not a character flaw — it's a system running without maintenance.", "You carry more simultaneous threads than most. The leverage isn't clearing your mind — it's reducing inputs: fewer open decisions, fewer uncommitted obligations, fewer tabs. The goal is a smaller load, not better performance under a big one."]
+  };
+  const [insight, body] = leverageMap[topTrait] || [
+    `Your core constraint is the gap between ${topTrait.toLowerCase()} and consistent output.`,
+    `Understanding how ${topTrait.toLowerCase()} shapes your daily decision-making is the starting point for changing how you operate.`
+  ];
+
+  document.getElementById('leverage-insight').textContent = `"${insight}"`;
+  document.getElementById('leverage-body').textContent = body;
+
+  // Paid title
+  document.getElementById('paid-title').textContent = topTrait + ' — Full Profile';
+}
+
+function unlockPaid() {
+  show('screen-paid');
+}
+
+function retake() {
+  startQuiz();
+}
+
+function downloadCard() {
+  const arch = getBestArchetype();
+  const w = 800, h = 420;
+  const canvas = document.createElement('canvas');
+  canvas.width = w; canvas.height = h;
+  const ctx = canvas.getContext('2d');
+
+  // Background
+  ctx.fillStyle = '#0f0f0f';
+  ctx.beginPath();
+  ctx.roundRect(0, 0, w, h, 20);
+  ctx.fill();
+
+  // Glow
+  const grad = ctx.createRadialGradient(w * 0.85, h * 0.12, 0, w * 0.85, h * 0.12, w * 0.45);
+  grad.addColorStop(0, 'rgba(200,184,255,0.13)');
+  grad.addColorStop(1, 'transparent');
+  ctx.fillStyle = grad;
+  ctx.fillRect(0, 0, w, h);
+
+  const pad = 52;
+
+  // Eyebrow
+  ctx.fillStyle = 'rgba(255,255,255,0.28)';
+  ctx.font = '400 13px DM Sans, sans-serif';
+  ctx.fillText('blueprint.', pad, pad + 14);
+
+  // Archetype name
+  ctx.fillStyle = '#c8b8ff';
+  ctx.font = '400 15px DM Sans, sans-serif';
+  ctx.fillText(arch.name.toUpperCase(), pad, pad + 44);
+
+  // Divider
+  ctx.strokeStyle = 'rgba(255,255,255,0.1)';
+  ctx.lineWidth = 1;
+  ctx.beginPath();
+  ctx.moveTo(pad, pad + 60); ctx.lineTo(w - pad, pad + 60);
+  ctx.stroke();
+
+  // Traits — word wrap
+  ctx.fillStyle = '#ffffff';
+  ctx.font = '400 28px Georgia, DM Serif Display, serif';
+  const traitStr = topTraits.join('  ·  ');
+  const maxW = w - pad * 2;
+  const words = topTraits;
+  let lines = []; let cur = '';
+  words.forEach((word) => {
+    const sep = cur ? '  ·  ' : '';
+    const test = cur + sep + word;
+    if (ctx.measureText(test).width > maxW && cur) {
+      lines.push(cur); cur = word;
+    } else { cur = test; }
+  });
+  lines.push(cur);
+  const lineStart = pad + 96;
+  lines.forEach((l, i) => ctx.fillText(l, pad, lineStart + i * 44));
+
+  // URL
+  ctx.fillStyle = 'rgba(255,255,255,0.2)';
+  ctx.font = '400 13px DM Sans, sans-serif';
+  ctx.fillText('blueprint.app', pad, h - pad);
+
+  const link = document.createElement('a');
+  link.download = 'my-blueprint.png';
+  link.href = canvas.toDataURL('image/png');
+  link.click();
+}
+</script>
+</body>
+</html>
