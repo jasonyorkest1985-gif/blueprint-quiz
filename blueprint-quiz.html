@@ -729,15 +729,6 @@ const QUESTIONS = [
     ]
   },
   {
-    text: "You are most likely to take action when:",
-    options: [
-      { label: "There is pressure or urgency", weights: { "Impulsive Action": 0.5, "Achievement-Driven": 0.5 } },
-      { label: "You feel inspired or interested", weights: { "Curiosity-Driven": 1, "Meaning-Driven": 0.5 } },
-      { label: "You want a reward or outcome", weights: { "Achievement-Driven": 1.5 } },
-      { label: "You are trying to prove yourself", weights: { "Achievement-Driven": 1, "Emotionally Reactive": 0.5 } }
-    ]
-  },
-  {
     text: "When something goes wrong, you usually:",
     options: [
       { label: "Stay calm and solve it", weights: { "Emotionally Stable": 1.5, "Analytical": 0.5 } },
@@ -798,6 +789,15 @@ const QUESTIONS = [
       { label: "Busy and overloaded", weights: { "Mentally Overloaded": 1.5, "Overthinking-Prone": 0.5 } },
       { label: "Fast and chaotic", weights: { "Impulsive Action": 0.5, "Mentally Overloaded": 1 } },
       { label: "Calm but slow-moving", weights: { "Mentally Clear": 0.5, "Emotionally Stable": 0.5 } }
+    ]
+  },
+  {
+    text: "When you're avoiding something, it's usually because:",
+    options: [
+      { label: "You don't fully understand it yet", weights: { "Analytical": 1, "Overthinking-Prone": 0.5 } },
+      { label: "It doesn't feel meaningful enough to bother", weights: { "Meaning-Driven": 1.5 } },
+      { label: "You're worried about doing it wrong", weights: { "Overthinking-Prone": 1, "Socially Anxious": 0.5 } },
+      { label: "You're waiting until you're in the right headspace", weights: { "Inconsistent Execution": 1, "Emotionally Reactive": 0.5 } }
     ]
   }
 ];
