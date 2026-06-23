@@ -1083,6 +1083,7 @@
     .result-title-ghost { font-size: 32px; }
   }
 </style>
+<script src="https://app.lemonsqueezy.com/js/lemon.js" defer></script>
 </head>
 <body>
 
@@ -2012,8 +2013,14 @@ function renderPaidReport() {
 }
 
 function unlockPaid() {
-  show('screen-paid');
+  window.LemonSqueezy.Url.Open('https://blueprintquiz.lemonsqueezy.com/checkout/buy/6867245d-2255-4526-82eb-32a5a8f03598');
 }
+
+window.addEventListener('message', function(e) {
+  if (e.data && e.data.event === 'Checkout.Success') {
+    show('screen-paid');
+  }
+});
 
 function retake() {
   startQuiz();
